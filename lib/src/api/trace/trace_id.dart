@@ -12,17 +12,22 @@ class TraceId {
   List<int> _id;
 
   TraceId(this._id);
-  TraceId.fromIdGenerator(api.IdGenerator generator) {
-    _id = generator.generateTraceId();
+  factory TraceId.fromIdGenerator(api.IdGenerator generator) {
+    final id = generator.generateTraceId();
+    return TraceId(id);
   }
-  TraceId.fromString(String id) {
-    _id = [];
+  
+  factory TraceId.fromString(String id) {
+    final _id = <int>[];
     id = id.padLeft(TraceId.sizeBits, '0');
 
     for (var i = 0; i < id.length; i += 2) {
       _id.add(int.parse('${id[i]}${id[i + 1]}', radix: 16));
     }
+
+    return TraceId(_id);
   }
+
   TraceId.invalid() : this(List<int>.filled(sizeBytes, 0));
 
   /// Retrieve this TraceId as a list of byte values.

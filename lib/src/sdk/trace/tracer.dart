@@ -19,16 +19,18 @@ class Tracer implements api.Tracer {
 
   Tracer(this._processors, this._resource, this._sampler, this._timeProvider,
       this._idGenerator, this._instrumentationLibrary,
-      {sdk.SpanLimits spanLimits})
+      {sdk.SpanLimits? spanLimits})
       : _spanLimits = spanLimits ?? sdk.SpanLimits();
 
   @override
-  api.Span startSpan(String name,
-      {api.Context context,
-      api.SpanKind kind,
-      List<api.Attribute> attributes,
-      List<api.SpanLink> links,
-      Int64 startTime}) {
+  api.Span startSpan(
+    String name, {
+    api.Context? context,
+    api.SpanKind? kind,
+    List<api.Attribute>? attributes,
+    List<api.SpanLink>? links,
+    Int64? startTime,
+  }) {
     context ??= api.Context.current;
 
     // If a valid, active Span is present in the context, use it as this Span's

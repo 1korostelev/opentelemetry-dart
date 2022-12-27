@@ -5,15 +5,20 @@ import '../../../api.dart' as api;
 import '../common/attributes.dart';
 
 class Resource {
-  final Attributes _attributes = Attributes.empty();
+  final Attributes _attributes;
 
-  Resource(List<api.Attribute> attributes) {
+  const Resource._(this._attributes);
+
+  const Resource.empty() : _attributes = Attributes.empty();
+
+  factory Resource(List<api.Attribute> attributes) {
     for (final attribute in attributes) {
       if (attribute.value is! String) {
         throw ArgumentError('Attributes value must be String.');
       }
     }
-    _attributes.addAll(attributes);
+    final _attributes = Attributes.empty()..addAll(attributes);
+    return Resource._(_attributes);
   }
 
   Attributes get attributes => _attributes;
