@@ -14,7 +14,7 @@ class MeterProvider implements api.MeterProvider {
 
   sdk.Resource get resource => _sharedState.resource;
 
-  MeterProvider({sdk.Resource resource})
+  MeterProvider({required sdk.Resource resource})
       : _sharedState = MeterProviderSharedState(resource);
 
   @override
@@ -22,8 +22,7 @@ class MeterProvider implements api.MeterProvider {
       {String version = '',
       String schemaUrl = '',
       List<api.Attribute> attributes = const []}) {
-    if (name == null || name == '') {
-      name = '';
+    if (name.isEmpty) {
       _logger.warning(invalidMeterNameMessage, '', StackTrace.current);
     }
 

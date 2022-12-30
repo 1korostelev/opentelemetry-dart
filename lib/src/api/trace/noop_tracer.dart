@@ -14,8 +14,8 @@ class NoopTracer implements api.Tracer {
     String name, {
     api.Context? context,
     api.SpanKind? kind,
-    List<api.Attribute> attributes = const [],
-    List<api.SpanLink> links = const [],
+    List<api.Attribute>? attributes,
+    List<api.SpanLink>? links,
     Int64? startTime,
   }) {
     final parentContext = context?.spanContext;

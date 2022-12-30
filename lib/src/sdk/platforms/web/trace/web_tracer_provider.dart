@@ -25,26 +25,27 @@ class WebTracerProvider extends sdk.TracerProviderBase {
   final sdk.SpanLimits _spanLimits;
 
   WebTracerProvider(
-      {List<api.SpanProcessor> processors,
-      sdk.Resource resource,
-      sdk.Sampler sampler,
-      sdk.TimeProvider timeProvider,
-      api.IdGenerator idGenerator,
-      sdk.SpanLimits spanLimits})
+      {List<api.SpanProcessor> processors = const [],
+      sdk.Resource? resource,
+      sdk.Sampler? sampler,
+      sdk.TimeProvider? timeProvider,
+      api.IdGenerator? idGenerator,
+      sdk.SpanLimits? spanLimits})
       :
         // Default to a no-op TracerProvider.
-        _processors = processors ?? [],
+        _processors = processors,
         _resource = resource ?? sdk.Resource([]),
         _sampler = sampler ?? sdk.ParentBasedSampler(sdk.AlwaysOnSampler()),
         _timeProvider = timeProvider ?? sdk.DateTimeTimeProvider(),
         _idGenerator = idGenerator ?? sdk.IdGenerator(),
         _spanLimits = spanLimits ?? sdk.SpanLimits(),
         super(
-            processors: processors,
-            resource: resource,
-            sampler: sampler,
-            idGenerator: idGenerator,
-            spanLimits: spanLimits);
+          processors: processors,
+          resource: resource,
+          sampler: sampler,
+          idGenerator: idGenerator,
+          spanLimits: spanLimits,
+        );
 
   @override
   api.Tracer getTracer(String name, {String version = ''}) {

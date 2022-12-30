@@ -10,8 +10,11 @@ class Meter implements api.Meter {
   Meter(this._state);
 
   @override
-  api.Counter<T> createCounter<T extends num>(String name,
-      {String description, String unit}) {
+  api.Counter<T> createCounter<T extends num>(
+    String name, {
+    String? description,
+    String? unit,
+  }) {
     return sdk.Counter<T>();
   }
 }
