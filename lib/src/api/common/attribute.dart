@@ -31,3 +31,7 @@ class Attribute {
   /// Create an Attribute from a list of integer values.
   Attribute.fromIntList(this.key, List<int> this.value);
 }
+
+extension ListAttributeExt on List<Attribute> {
+  Map<String, Object?> toMap() => Map.fromEntries(map((e) => MapEntry(e.key, e.value)));
+}

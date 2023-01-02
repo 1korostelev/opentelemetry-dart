@@ -12,6 +12,9 @@ class Attributes {
 
   const Attributes(Map<String, Object?> attributes) : _attributes = attributes;
 
+  factory Attributes.fromListAttribute(List<Attribute> attributes) =>
+      Attributes(attributes.toMap());
+
   /// Retrieve the value associated with the Attribute with key [key].
   Object? get(String key) => _attributes[key];
 

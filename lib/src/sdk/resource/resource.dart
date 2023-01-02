@@ -17,7 +17,7 @@ class Resource {
         throw ArgumentError('Attributes value must be String.');
       }
     }
-    final _attributes = Attributes.empty()..addAll(attributes);
+    final _attributes = Attributes.fromListAttribute(attributes);
     return Resource._(_attributes);
   }
 
