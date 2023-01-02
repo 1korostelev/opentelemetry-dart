@@ -68,15 +68,15 @@ class CollectorExporter implements api.SpanExporter {
       }
       final rs = pb_trace.ResourceSpans(
         resource: pb_resource.Resource(attributes: attrs),
-        // instrumentationLibrarySpans: [],
+        instrumentationLibrarySpans: [],
       );
-      // // for each distinct instrumentation library, construct the protobuf equivalent
-      // for (final ils in il.value.entries) {
-      //   rs.instrumentationLibrarySpans.add(pb_trace.InstrumentationLibrarySpans(
-      //       spans: ils.value,
-      //       instrumentationLibrary: pb_common.InstrumentationLibrary(
-      //           name: ils.key.name, version: ils.key.version)));
-      // }
+      // for each distinct instrumentation library, construct the protobuf equivalent
+      for (final ils in il.value.entries) {
+        rs.instrumentationLibrarySpans.add(pb_trace.InstrumentationLibrarySpans(
+            spans: ils.value,
+            instrumentationLibrary: pb_common.InstrumentationLibrary(
+                name: ils.key.name, version: ils.key.version)));
+      }
       rss.add(rs);
     }
     return rss;
