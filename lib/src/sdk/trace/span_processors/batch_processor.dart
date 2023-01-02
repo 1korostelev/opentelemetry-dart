@@ -22,9 +22,10 @@ class BatchSpanProcessor implements api.SpanProcessor {
 
   BatchSpanProcessor(
     this._exporter, {
-    this.maxExportBatchSize = 512,
-    this.scheduledDelayMillis = 5000,
-  });
+    int? maxExportBatchSize,
+    int? scheduledDelayMillis,
+  })  : maxExportBatchSize = maxExportBatchSize ?? 512,
+        scheduledDelayMillis = scheduledDelayMillis ?? 5000;
 
   @override
   void forceFlush() {
