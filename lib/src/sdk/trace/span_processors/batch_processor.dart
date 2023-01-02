@@ -16,16 +16,16 @@ class BatchSpanProcessor implements api.SpanProcessor {
   final List<api.Span> _spanBuffer = [];
   Timer? _timer;
 
-  final int maxExportBatchSize;
+  final int _maxExportBatchSize;
   final int _maxQueueSize = 2048;
-  final int scheduledDelayMillis;
+  final int _scheduledDelayMillis;
 
   BatchSpanProcessor(
     this._exporter, {
     int? maxExportBatchSize,
     int? scheduledDelayMillis,
-  })  : maxExportBatchSize = maxExportBatchSize ?? 512,
-        scheduledDelayMillis = scheduledDelayMillis ?? 5000;
+  })  : _maxExportBatchSize = maxExportBatchSize ?? 51,
+        _scheduledDelayMillis = scheduledDelayMillis ?? 5000;
 
   @override
   void forceFlush() {
@@ -75,7 +75,7 @@ class BatchSpanProcessor implements api.SpanProcessor {
       return;
     }
 
-    _timer = Timer(Duration(milliseconds: scheduledDelayMillis), () {
+    _timer = Timer(Duration(milliseconds: _scheduledDelayMillis), () {
       _flushBatch();
       if (_spanBuffer.isNotEmpty) {
         _clearTimer();
@@ -100,7 +100,7 @@ class BatchSpanProcessor implements api.SpanProcessor {
       return;
     }
 
-    final batchSize = min(_spanBuffer.length, maxExportBatchSize);
+    final batchSize = min(_spanBuffer.length, _maxExportBatchSize);
     final batch = _spanBuffer.sublist(0, batchSize);
     _spanBuffer.removeRange(0, batchSize);
 

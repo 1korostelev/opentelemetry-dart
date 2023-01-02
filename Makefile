@@ -1,6 +1,6 @@
 init:
 	dart pub get
-	dart pub global activate protoc_plugin 19.3.1
+	dart pub global activate protoc_plugin
 	cd lib/src/sdk/proto && \
 		protoc --proto_path opentelemetry-proto \
 		--dart_out . \

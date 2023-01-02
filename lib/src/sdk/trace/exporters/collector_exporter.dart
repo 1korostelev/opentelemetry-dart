@@ -67,15 +67,16 @@ class CollectorExporter implements api.SpanExporter {
             value: _attributeValueToProtobuf(il.key.attributes.get(attr))));
       }
       final rs = pb_trace.ResourceSpans(
-          resource: pb_resource.Resource(attributes: attrs),
-          instrumentationLibrarySpans: []);
-      // for each distinct instrumentation library, construct the protobuf equivalent
-      for (final ils in il.value.entries) {
-        rs.instrumentationLibrarySpans.add(pb_trace.InstrumentationLibrarySpans(
-            spans: ils.value,
-            instrumentationLibrary: pb_common.InstrumentationLibrary(
-                name: ils.key.name, version: ils.key.version)));
-      }
+        resource: pb_resource.Resource(attributes: attrs),
+        // instrumentationLibrarySpans: [],
+      );
+      // // for each distinct instrumentation library, construct the protobuf equivalent
+      // for (final ils in il.value.entries) {
+      //   rs.instrumentationLibrarySpans.add(pb_trace.InstrumentationLibrarySpans(
+      //       spans: ils.value,
+      //       instrumentationLibrary: pb_common.InstrumentationLibrary(
+      //           name: ils.key.name, version: ils.key.version)));
+      // }
       rss.add(rs);
     }
     return rss;
@@ -143,10 +144,10 @@ class CollectorExporter implements api.SpanExporter {
     return pb_trace.Span(
         traceId: span.spanContext.traceId.get(),
         spanId: span.spanContext.spanId.get(),
-        parentSpanId: span.parentSpanId?.get(),
+        parentSpanId: span.parentSpanId.get(),
         name: span.name,
         startTimeUnixNano: span.startTime,
-        endTimeUnixNano: span.endTime,
+        endTimeUnixNano: span.endTime!,
         attributes: span.attributes.keys.map((key) => pb_common.KeyValue(
             key: key,
             value: _attributeValueToProtobuf(span.attributes.get(key)))),

@@ -1,12 +1,9 @@
-// Copyright 2021-2022 Workiva.
-// Licensed under the Apache License, Version 2.0. Please see https://github.com/Workiva/opentelemetry-dart/blob/master/LICENSE for more information
-
 ///
 //  Generated code. Do not modify.
 //  source: opentelemetry/proto/common/v1/common.proto
 //
-// @dart = 2.7
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package
+// @dart = 2.12
+// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,deprecated_member_use_from_same_package,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
 
 import 'dart:core' as $core;
 import 'dart:convert' as $convert;
@@ -61,26 +58,16 @@ const KeyValue$json = const {
 
 /// Descriptor for `KeyValue`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List keyValueDescriptor = $convert.base64Decode('CghLZXlWYWx1ZRIQCgNrZXkYASABKAlSA2tleRI9CgV2YWx1ZRgCIAEoCzInLm9wZW50ZWxlbWV0cnkucHJvdG8uY29tbW9uLnYxLkFueVZhbHVlUgV2YWx1ZQ==');
-@$core.Deprecated('Use stringKeyValueDescriptor instead')
-const StringKeyValue$json = const {
-  '1': 'StringKeyValue',
-  '2': const [
-    const {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    const {'1': 'value', '3': 2, '4': 1, '5': 9, '10': 'value'},
-  ],
-  '7': const {'3': true},
-};
-
-/// Descriptor for `StringKeyValue`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List stringKeyValueDescriptor = $convert.base64Decode('Cg5TdHJpbmdLZXlWYWx1ZRIQCgNrZXkYASABKAlSA2tleRIUCgV2YWx1ZRgCIAEoCVIFdmFsdWU6AhgB');
-@$core.Deprecated('Use instrumentationLibraryDescriptor instead')
-const InstrumentationLibrary$json = const {
-  '1': 'InstrumentationLibrary',
+@$core.Deprecated('Use instrumentationScopeDescriptor instead')
+const InstrumentationScope$json = const {
+  '1': 'InstrumentationScope',
   '2': const [
     const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'version', '3': 2, '4': 1, '5': 9, '10': 'version'},
+    const {'1': 'attributes', '3': 3, '4': 3, '5': 11, '6': '.opentelemetry.proto.common.v1.KeyValue', '10': 'attributes'},
+    const {'1': 'dropped_attributes_count', '3': 4, '4': 1, '5': 13, '10': 'droppedAttributesCount'},
   ],
 };
 
-/// Descriptor for `InstrumentationLibrary`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List instrumentationLibraryDescriptor = $convert.base64Decode('ChZJbnN0cnVtZW50YXRpb25MaWJyYXJ5EhIKBG5hbWUYASABKAlSBG5hbWUSGAoHdmVyc2lvbhgCIAEoCVIHdmVyc2lvbg==');
+/// Descriptor for `InstrumentationScope`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List instrumentationScopeDescriptor = $convert.base64Decode('ChRJbnN0cnVtZW50YXRpb25TY29wZRISCgRuYW1lGAEgASgJUgRuYW1lEhgKB3ZlcnNpb24YAiABKAlSB3ZlcnNpb24SRwoKYXR0cmlidXRlcxgDIAMoCzInLm9wZW50ZWxlbWV0cnkucHJvdG8uY29tbW9uLnYxLktleVZhbHVlUgphdHRyaWJ1dGVzEjgKGGRyb3BwZWRfYXR0cmlidXRlc19jb3VudBgEIAEoDVIWZHJvcHBlZEF0dHJpYnV0ZXNDb3VudA==');
