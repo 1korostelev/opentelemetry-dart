@@ -9,7 +9,9 @@ class Resource {
 
   const Resource._(this._attributes);
 
-  const Resource.empty() : _attributes = Attributes.empty();
+  const Resource.empty() : 
+  // ignore: invalid_constant
+  _attributes = Attributes.empty();
 
   factory Resource(List<api.Attribute> attributes) {
     for (final attribute in attributes) {

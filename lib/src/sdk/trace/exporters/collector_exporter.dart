@@ -1,6 +1,8 @@
 // Copyright 2021-2022 Workiva.
 // Licensed under the Apache License, Version 2.0. Please see https://github.com/Workiva/opentelemetry-dart/blob/master/LICENSE for more information
 
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:http/http.dart' as http;
 
 import '../../../../api.dart' as api;
@@ -14,10 +16,10 @@ import '../../proto/opentelemetry/proto/trace/v1/trace.pb.dart' as pb_trace;
 
 class CollectorExporter implements api.SpanExporter {
   Uri uri;
-  http.Client client;
+  late http.Client client;
   var _isShutdown = false;
 
-  CollectorExporter(this.uri, {http.Client httpClient}) {
+  CollectorExporter(this.uri, {http.Client? httpClient}) {
     client = httpClient ?? http.Client();
   }
 
@@ -51,8 +53,8 @@ class CollectorExporter implements api.SpanExporter {
           <api.InstrumentationLibrary, List<pb_trace.Span>>{};
       il[span.instrumentationLibrary] =
           il[span.instrumentationLibrary] ?? <pb_trace.Span>[]
-            ..add(_spanToProtobuf(span as sdk.Span));
-      rsm[(span as sdk.Span).resource] = il;
+            ..add(_spanToProtobuf(span));
+      rsm[span.resource] = il;
     }
 
     final rss = <pb_trace.ResourceSpans>[];
@@ -84,14 +86,21 @@ class CollectorExporter implements api.SpanExporter {
     for (final link in links) {
       final attrs = <pb_common.KeyValue>[];
       for (final attr in link.attributes) {
+        final value = attr.value;
+        if (value == null) {
+          continue;
+        }
         attrs.add(pb_common.KeyValue(
-            key: attr.key, value: _attributeValueToProtobuf(attr.value)));
+          key: attr.key,
+          value: _attributeValueToProtobuf(value),
+        ));
       }
       pbLinks.add(pb_trace.Span_Link(
-          traceId: link.context.traceId.get(),
-          spanId: link.context.spanId.get(),
-          traceState: link.context.traceState.toString(),
-          attributes: attrs));
+        traceId: link.context.traceId.get(),
+        spanId: link.context.spanId.get(),
+        traceState: link.context.traceState.toString(),
+        attributes: attrs,
+      ));
     }
     return pbLinks;
   }
@@ -147,16 +156,16 @@ class CollectorExporter implements api.SpanExporter {
         links: _spanLinksToProtobuf(span.links));
   }
 
-  pb_common.AnyValue _attributeValueToProtobuf(Object value) {
+  pb_common.AnyValue _attributeValueToProtobuf(Object? value) {
     switch (value.runtimeType) {
       case String:
-        return pb_common.AnyValue(stringValue: value);
+        return pb_common.AnyValue(stringValue: value as String);
       case bool:
-        return pb_common.AnyValue(boolValue: value);
+        return pb_common.AnyValue(boolValue: value as bool);
       case double:
-        return pb_common.AnyValue(doubleValue: value);
+        return pb_common.AnyValue(doubleValue: value as double);
       case int:
-        return pb_common.AnyValue(intValue: value);
+        return pb_common.AnyValue(intValue: value as dynamic);
       case List:
         final list = value as List;
         if (list.isNotEmpty) {

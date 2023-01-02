@@ -15,13 +15,17 @@ class SpanId {
   SpanId.fromIdGenerator(api.IdGenerator generator) {
     _id = generator.generateSpanId();
   }
-  SpanId.fromString(String id) {
-    _id = [];
+  static SpanId? fromString(String? id) {
+    if (id==null) {
+      return null;
+    }
+    final _id = <int>[];
     id = id.padLeft(api.SpanId.sizeBits, '0');
 
     for (var i = 0; i < id.length; i += 2) {
       _id.add(int.parse('${id[i]}${id[i + 1]}', radix: 16));
     }
+    return SpanId(_id);
   }
   SpanId.invalid() : this(List<int>.filled(sizeBytes, 0));
   SpanId.root() : this([]);

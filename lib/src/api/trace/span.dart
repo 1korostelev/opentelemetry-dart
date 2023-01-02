@@ -62,7 +62,10 @@ abstract class Span {
   ///
   /// Only the value of the last call will be recorded, and implementations are
   /// free to ignore previous calls.
-  void setStatus(api.StatusCode status, {String description});
+  void setStatus(
+    api.StatusCode status, {
+    String description = '',
+  });
 
   /// Retrieve the status of the [Span].
   api.SpanStatus get status;

@@ -16,8 +16,8 @@ abstract class Tracer {
     String name, {
     api.Context? context,
     api.SpanKind? kind,
-    List<api.Attribute>? attributes,
-    List<api.SpanLink>? links,
+    List<api.Attribute> attributes = const [],
+    List<api.SpanLink> links = const [],
     Int64? startTime,
   });
 }

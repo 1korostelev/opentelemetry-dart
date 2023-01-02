@@ -17,7 +17,10 @@ class TraceId {
     return TraceId(id);
   }
   
-  factory TraceId.fromString(String id) {
+  static TraceId? fromString(String? id) {
+    if (id == null) {
+      return null;
+    }
     final _id = <int>[];
     id = id.padLeft(TraceId.sizeBits, '0');
 

@@ -1,6 +1,8 @@
 // Copyright 2021-2022 Workiva.
 // Licensed under the Apache License, Version 2.0. Please see https://github.com/Workiva/opentelemetry-dart/blob/master/LICENSE for more information
 
+import 'package:fixnum/fixnum.dart';
+
 import '../../../api/trace/span.dart';
 
 import '../../../api/exporters/span_exporter.dart';
@@ -17,7 +19,7 @@ class ConsoleExporter implements SpanExporter {
         'name': span.name,
         'id': '${span.spanContext.spanId}',
         'timestamp': span.startTime,
-        'duration': span.endTime - span.startTime,
+        'duration': (span.endTime ?? Int64()) - (span.startTime ?? Int64()),
         'flags':
             '${span.spanContext.traceFlags.toRadixString(16).padLeft(2, '0')}',
         'state': '${span.spanContext.traceState}',

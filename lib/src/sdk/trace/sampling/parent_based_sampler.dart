@@ -11,12 +11,13 @@ class ParentBasedSampler implements sdk.Sampler {
   final sdk.Sampler _localParentSampled;
   final sdk.Sampler _localParentNotSampled;
 
-  ParentBasedSampler(this._root,
-      {remoteParentSampled,
-      remoteParentNotSampled,
-      localParentSampled,
-      localParentNotSampled})
-      : _remoteParentSampled = remoteParentSampled ?? sdk.AlwaysOnSampler(),
+  ParentBasedSampler(
+    this._root, {
+    sdk.Sampler? remoteParentSampled,
+    sdk.Sampler? remoteParentNotSampled,
+    sdk.Sampler? localParentSampled,
+    sdk.Sampler? localParentNotSampled,
+  })  : _remoteParentSampled = remoteParentSampled ?? sdk.AlwaysOnSampler(),
         _remoteParentNotSampled =
             remoteParentNotSampled ?? sdk.AlwaysOffSampler(),
         _localParentSampled = localParentSampled ?? sdk.AlwaysOnSampler(),

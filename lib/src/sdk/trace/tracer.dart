@@ -27,8 +27,8 @@ class Tracer implements api.Tracer {
     String name, {
     api.Context? context,
     api.SpanKind? kind,
-    List<api.Attribute>? attributes,
-    List<api.SpanLink>? links,
+    List<api.Attribute> attributes = const [],
+    List<api.SpanLink> links = const [],
     Int64? startTime,
   }) {
     context ??= api.Context.current;
@@ -53,21 +53,28 @@ class Tracer implements api.Tracer {
       traceState = sdk.TraceState.empty();
     }
 
-    final samplerResult =
-        _sampler.shouldSample(context, traceId, name, kind, attributes, links);
+    final samplerResult = _sampler.shouldSample(context, traceId, name,
+        kind ?? api.SpanKind.internal, attributes, links);
     final traceFlags = (samplerResult.decision == sdk.Decision.recordAndSample)
         ? api.TraceFlags.sampled
         : api.TraceFlags.none;
     final spanContext =
         sdk.SpanContext(traceId, spanId, traceFlags, traceState);
 
-    return Span(name, spanContext, parentSpanId, _processors, _timeProvider,
-        _resource, _instrumentationLibrary,
-        kind: kind,
-        attributes: attributes,
-        links: links,
-        parentContext: context,
-        limits: _spanLimits,
-        startTime: startTime);
+    return Span(
+      name,
+      spanContext,
+      parentSpanId,
+      _processors,
+      _timeProvider,
+      _resource,
+      _instrumentationLibrary,
+      kind: kind,
+      attributes: attributes,
+      links: links,
+      parentContext: context,
+      limits: _spanLimits,
+      startTime: startTime,
+    );
   }
 }

@@ -21,7 +21,7 @@ class Span implements api.Span {
   final api.InstrumentationLibrary _instrumentationLibrary;
   final Int64 _startTime;
   final Attributes _attributes = Attributes.empty();
-  Int64 _endTime;
+  Int64? _endTime;
   int _droppedSpanAttributes = 0;
 
   @override
@@ -31,19 +31,25 @@ class Span implements api.Span {
   bool get isRecording => _endTime == null;
 
   /// Construct a [Span].
-  Span(this.name, this._spanContext, this._parentSpanId, this._processors,
-      this._timeProvider, this._resource, this._instrumentationLibrary,
-      {api.SpanKind kind,
-      List<api.Attribute> attributes,
-      List<api.SpanLink> links,
-      api.Context parentContext,
-      sdk.SpanLimits limits,
-      Int64 startTime})
-      : _links = _applyLinkLimits(links, limits ?? sdk.SpanLimits()),
+  Span(
+    this.name,
+    this._spanContext,
+    this._parentSpanId,
+    this._processors,
+    this._timeProvider,
+    this._resource,
+    this._instrumentationLibrary, {
+    api.SpanKind? kind,
+    List<api.Attribute> attributes = const [],
+    List<api.SpanLink>? links,
+    api.Context? parentContext,
+    sdk.SpanLimits? limits,
+    Int64? startTime,
+  })  : _links = _applyLinkLimits(links, limits ?? sdk.SpanLimits()),
         _kind = kind ?? api.SpanKind.internal,
         _startTime = startTime ?? _timeProvider.now,
         _limits = limits ?? sdk.SpanLimits() {
-    if (attributes != null) {
+    if (attributes.isNotEmpty) {
       setAttributes(attributes);
     }
 
@@ -56,7 +62,7 @@ class Span implements api.Span {
   api.SpanContext get spanContext => _spanContext;
 
   @override
-  Int64 get endTime => _endTime;
+  Int64? get endTime => _endTime;
 
   @override
   Int64 get startTime => _startTime;
@@ -74,7 +80,10 @@ class Span implements api.Span {
   }
 
   @override
-  void setStatus(api.StatusCode status, {String description}) {
+  void setStatus(
+    api.StatusCode status, {
+    String description = '',
+  }) {
     // A status cannot be Unset after being set, and cannot be set to any other
     // status after being marked "Ok".
     if (status == api.StatusCode.unset || _status.code == api.StatusCode.ok) {
@@ -84,7 +93,7 @@ class Span implements api.Span {
     _status.code = status;
 
     // Description is ignored for statuses other than "Error".
-    if (status == api.StatusCode.error && description != null) {
+    if (status == api.StatusCode.error && description.isNotEmpty) {
       _status.description = description;
     }
   }
@@ -132,11 +141,12 @@ class Span implements api.Span {
     // if maxNumAttributeLength is less than zero, then it has unlimited length.
     if (maxLength < 0) return attr;
 
-    if (attr.value is String) {
+    final value = attr.value;
+    if (value is String) {
       attr = api.Attribute.fromString(
-          attr.key, _applyAttributeLengthLimit(attr.value, maxLength));
-    } else if (attr.value is List<String>) {
-      final listString = attr.value as List<String>;
+          attr.key, _applyAttributeLengthLimit(value, maxLength));
+    } else if (value is List<String>) {
+      final listString = value;
       for (var j = 0; j < listString.length; j++) {
         listString[j] = _applyAttributeLengthLimit(listString[j], maxLength);
       }
@@ -146,7 +156,7 @@ class Span implements api.Span {
   }
 
   @override
-  void recordException(dynamic exception, {StackTrace stackTrace}) {
+  void recordException(dynamic exception, {StackTrace? stackTrace}) {
     // ignore: todo
     // TODO: O11Y-1531: Consider integration of Events here.
     setAttributes([
@@ -164,14 +174,14 @@ class Span implements api.Span {
 
   @override
   void addEvent(String name, Int64 timestamp,
-      {List<api.Attribute> attributes}) {
+      {List<api.Attribute> attributes = const []}) {
     // TODO: O11Y-1531
     throw UnimplementedError();
   }
 
   // This method just can be called once during construction.
   static List<api.SpanLink> _applyLinkLimits(
-      List<api.SpanLink> links, sdk.SpanLimits limits) {
+      List<api.SpanLink>? links, sdk.SpanLimits limits) {
     if (links == null) return [];
     final spanLink = <api.SpanLink>[];
 
@@ -202,7 +212,7 @@ class Span implements api.Span {
         // if this key has been added before, found its index,
         // and replace it with new value.
         if (attributeMap.containsKey(attr.key)) {
-          final idx = attributeMap[attr.key];
+          final idx = attributeMap[attr.key]!;
           linkAttributes[idx] = trimedAttr;
         } else {
           // record this new key's index with linkAttributes length,
