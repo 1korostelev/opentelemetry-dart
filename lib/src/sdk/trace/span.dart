@@ -20,7 +20,7 @@ class Span implements api.Span {
   final sdk.SpanLimits _limits;
   final api.InstrumentationLibrary _instrumentationLibrary;
   final Int64 _startTime;
-  final Attributes _attributes = Attributes.empty();
+  final Attributes _attributes;
   Int64? _endTime;
   int _droppedSpanAttributes = 0;
 
@@ -48,7 +48,8 @@ class Span implements api.Span {
   })  : _links = _applyLinkLimits(links, limits ?? sdk.SpanLimits()),
         _kind = kind ?? api.SpanKind.internal,
         _startTime = startTime ?? _timeProvider.now,
-        _limits = limits ?? sdk.SpanLimits() {
+        _limits = limits ?? sdk.SpanLimits(),
+        _attributes = Attributes({}) {
     if (attributes.isNotEmpty) {
       setAttributes(attributes);
     }
