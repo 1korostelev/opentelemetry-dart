@@ -3,6 +3,7 @@
 
 import 'package:fixnum/fixnum.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 
 import '../../../../api.dart' as api;
 import '../../../../sdk.dart' as sdk;
@@ -34,7 +35,7 @@ class CollectorExporter implements api.SpanExporter {
 
     final body = pb_trace_service.ExportTraceServiceRequest(
         resourceSpans: _spansToProtobuf(spans));
-
+    Logger().i(body.writeToJsonMap());
     client.post(uri,
         body: body.writeToBuffer(),
         headers: {'Content-Type': 'application/x-protobuf'});

@@ -1,6 +1,8 @@
 // Copyright 2021-2022 Workiva.
 // Licensed under the Apache License, Version 2.0. Please see https://github.com/Workiva/opentelemetry-dart/blob/master/LICENSE for more information
 
+import 'package:logger/logger.dart';
+
 import '../../../api/trace/span.dart';
 
 import '../../../api/exporters/span_exporter.dart';
@@ -11,7 +13,7 @@ class ConsoleExporter implements SpanExporter {
   void _printSpans(List<Span> spans) {
     for (var i = 0; i < spans.length; i++) {
       final span = spans[i];
-      print({
+      Logger().i({
         'traceId': '${span.spanContext.traceId}',
         'parentId': '${span.parentSpanId}',
         'name': span.name,
