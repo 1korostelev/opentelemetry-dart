@@ -7,6 +7,7 @@ export 'src/sdk/time_providers/datetime_time_provider.dart'
     show DateTimeTimeProvider;
 export 'src/sdk/time_providers/time_provider.dart' show TimeProvider;
 export 'src/sdk/trace/exporters/collector_exporter.dart' show CollectorExporter;
+export 'src/sdk/trace/exporters/jaeger_exporter.dart' show JaegerExporter;
 export 'src/sdk/trace/exporters/console_exporter.dart' show ConsoleExporter;
 export 'src/sdk/trace/id_generator.dart' show IdGenerator;
 export 'src/sdk/trace/propagation/w3c_trace_context_propagator.dart'
