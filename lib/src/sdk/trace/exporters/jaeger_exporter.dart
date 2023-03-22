@@ -25,18 +25,18 @@ class JaegerExporter implements api.SpanExporter {
     }
 
     final spansList = spansToMap(spans);
-    Logger().i({
-      'data': spansList,
-      'converted': convert.jsonEncode(spansList),
-    });
+    // Logger().i({
+    //   'data': spansList,
+    //   'converted': convert.jsonEncode(spansList),
+    // });
 
-    // client.post(
-    //   uri,
-    //   body: convert.jsonEncode(spansList),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // );
+    client.post(
+      uri,
+      body: convert.jsonEncode(spansList),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
   }
 
   List<Map<String, dynamic>> spansToMap(List<api.Span> spans) {
