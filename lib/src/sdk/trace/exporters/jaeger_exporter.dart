@@ -47,8 +47,8 @@ class JaegerExporter implements api.SpanExporter {
           'traceId': '${span.spanContext.traceId}',
           'name': span.name,
           'id': '${span.spanContext.spanId}',
-          'timestamp': span.startTime,
-          'duration': span.endTime! - span.startTime!,
+          'timestamp': span.startTime as int,
+          'duration': (span.endTime! - span.startTime!) as int,
           'localEndpoint': {'serviceName': 'app'},
           'tags': <String, dynamic>{
             'service.name': 'app',
