@@ -58,7 +58,8 @@ class JaegerExporter implements api.SpanExporter {
           },
         };
         final attributes = extractSpanAttributes(span);
-        (fields['tags'] as Map).addAll(attributes);
+        Logger().i(attributes);
+        // (fields['tags'] as Map).addAll(attributes);
 
         items.add(fields);
       }
