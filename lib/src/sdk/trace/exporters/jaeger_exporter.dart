@@ -50,7 +50,7 @@ class JaegerExporter implements api.SpanExporter {
           'timestamp': span.startTime,
           'duration': span.endTime! - span.startTime!,
           'localEndpoint': {'serviceName': 'app'},
-          'tags': {
+          'tags': <String, dynamic>{
             'service.name': 'app',
             'telemetry.sdk.language': 'dart',
             'telemetry.sdk.name': 'opentelemetry',
