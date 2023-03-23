@@ -51,7 +51,7 @@ class JaegerExporter implements api.SpanExporter {
           'localEndpoint': {'serviceName': 'app'},
           'tags': <String, dynamic>{
             'service.name': 'app',
-            'telemetry.sdk.language': 'webjs',
+            'telemetry.sdk.language': 'dart',
             'telemetry.sdk.name': 'opentelemetry',
             'telemetry.sdk.version': '1.9.1'
           },
