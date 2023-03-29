@@ -25,7 +25,7 @@ class JaegerExporter implements api.SpanExporter {
     }
 
     final spansList = spansToMap(spans);
-    Logger().i(convert.jsonEncode(spansList));
+    // Logger().i(convert.jsonEncode(spansList));
 
     client.post(
       uri,
@@ -57,7 +57,7 @@ class JaegerExporter implements api.SpanExporter {
           },
         };
         final attributes = extractSpanAttributes(span);
-        Logger().i(attributes);
+        // Logger().i(attributes);
         (fields['tags'] as Map).addAll(attributes);
 
         items.add(fields);
