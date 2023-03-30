@@ -25,13 +25,15 @@ class JaegerExporter implements api.SpanExporter {
     }
 
     final spansList = spansToMap(spans);
-    // Logger().i(convert.jsonEncode(spansList));
 
+    final span = spans.first;
     client.post(
       uri,
       body: convert.jsonEncode(spansList),
       headers: {
         'Content-Type': 'application/json',
+        'uber-trace-id':
+            '${span.spanContext.traceId}:${span.spanContext.spanId}:0:${span.spanContext.traceFlags}',
       },
     );
   }
@@ -47,7 +49,6 @@ class JaegerExporter implements api.SpanExporter {
           'timestamp': (span.startTime!.toInt() / 1000).round(),
           'duration':
               ((span.endTime! - span.startTime!).toInt() / 1000).round(),
-          // 'duration': 100500,
           'localEndpoint': {'serviceName': 'app'},
           'tags': <String, dynamic>{
             'service.name': 'app',
@@ -57,7 +58,6 @@ class JaegerExporter implements api.SpanExporter {
           },
         };
         final attributes = extractSpanAttributes(span);
-        // Logger().i(attributes);
         (fields['tags'] as Map).addAll(attributes);
 
         items.add(fields);
